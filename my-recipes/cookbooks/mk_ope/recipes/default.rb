@@ -11,12 +11,14 @@ execute "zabbix" do
 end
 
 
+
+
 %w[
   mysql
   mysql-devel
   mysql-server
   mysql-utilities
-　bind-utils
+  bind-utils
   sysstat
   mailx
   dstat
@@ -28,15 +30,28 @@ end
   lsof
   telnet
   ntp
-#  htop
   zabbix-server
   zabbix 
   zabbix-agent 
   zabbix-server zabbix-server-mysql 
   zabbix-web 
   zabbix-web-mysql
+  htop
 ].each do |pkg|
   package "#{pkg}" do
     action :install
   end
+end
+
+
+%w[
+  ntpd
+  sysstat
+  mysqld
+  ].each do |service|
+service "start" do
+  pattern "#{service}" do
+  action [:enable, :start]
+end
+end
 end
